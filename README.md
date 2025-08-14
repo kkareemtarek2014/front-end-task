@@ -86,6 +86,7 @@ interface PropertyListing {
   for_sale: boolean;             // Availability status
   photos: string[];              // Array of image URLs
   bua?: number;                  // Built-up area (optional)
+  status: string;               // unit status
 }
 
 interface APIResponse {
