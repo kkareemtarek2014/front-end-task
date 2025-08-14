@@ -12,7 +12,9 @@ You'll be building a **Real Estate Property Listings Dashboard** that showcases 
 - **Performance optimization**
 - **Testing best practices**
 
-The design reference can be found [here](https://www.figma.com/file/SYWCrd5A18H44UoxJBfUW2/Frontend-task?node-id=0%3A1). You may need to sign up to inspect the Figma design.
+The design reference can be found [here](https://www.figma.com/design/SYWCrd5A18H44UoxJBfUW2/Frontend-task?node-id=2179-434&p=f&t=i4oKNdvyWmLG02oZ-0). and [here](https://www.figma.com/design/SYWCrd5A18H44UoxJBfUW2/Frontend-task?node-id=2180-2253&p=f&t=PXJhej4yCiEvXb7c-0) You may need to sign up to inspect the Figma design.
+
+Figma Demos: [Desktop](https://www.figma.com/proto/SYWCrd5A18H44UoxJBfUW2/Frontend-task?node-id=2179-3415&p=f&t=i4oKNdvyWmLG02oZ-0&scaling=min-zoom&content-scaling=fixed&page-id=2179%3A434&starting-point-node-id=2179%3A3415) and [Mobile](https://www.figma.com/proto/SYWCrd5A18H44UoxJBfUW2/Frontend-task?node-id=2180-2254&p=f&t=PXJhej4yCiEvXb7c-0&scaling=min-zoom&content-scaling=fixed&page-id=2180%3A2253&starting-point-node-id=2180%3A2254)
 
 ## Core Requirements
 
