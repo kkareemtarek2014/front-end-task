@@ -1,50 +1,50 @@
-/**
- * Property Listing Types
- * These interfaces define the shape of data from the API
- */
+export type UnitType =
+  | "apartment"
+  | "penthouse"
+  | "townhouse"
+  | "chalet"
+  | "duplex"
+  | "twin house"
+  | "town house";
+
+export type PropertyStatus = "available" | "reserved" | "sold" | "unavailable";
 
 export interface PropertyListing {
   _id: string;
   unit_id: string;
-  unit_type: 'apartment' | 'villa' | 'penthouse' | 'townhouse';
+  unit_type: UnitType;
   total_price: number;
   for_sale: boolean;
   photos: string[];
-  bua?: number; // Built-up area
+  bua?: number;
+  status: string;
 }
 
-export interface APIResponse<T> {
-  data: T[];
+export interface APIResponse {
+  data: PropertyListing[];
   total: number;
-  page: number;
   limit: number;
-}
-
-export interface PaginationParams {
   page: number;
-  limit: number;
 }
 
-export interface SortParams {
-  field: keyof PropertyListing;
-  order: 'asc' | 'desc';
+export type SortOrder = "asc" | "desc";
+export type SearchType = "unitId" | "unitType";
+
+export interface Unit {
+  id: string;
+  type: string;
+  bua: string;
+  status: string;
+  totalPrice: string;
+  photos: string[];
 }
 
-export interface SearchParams {
-  unit_id?: string;
-}
-
-export interface ListingFilters extends PaginationParams, SearchParams {
-  sort?: SortParams;
-}
-
-// Component Props Types
 export interface TableProps {
   listings: PropertyListing[];
   loading?: boolean;
   onSort?: (field: keyof PropertyListing) => void;
   sortField?: keyof PropertyListing;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: SortOrder;
 }
 
 export interface PaginationProps {
@@ -62,22 +62,36 @@ export interface SearchBarProps {
   debounceMs?: number;
 }
 
-export interface LightboxProps {
-  images: string[];
-  isOpen: boolean;
-  onClose: () => void;
-  currentIndex?: number;
+export interface FilterOptions {
+  search?: string;
+  searchType?: SearchType;
+  status?: string[];
+  unitType?: string[] | string;
 }
 
-// Redux Store Types
-export interface RootState {
-  listings: ListingsState;
+export interface DropdownOption {
+  value: string;
+  label: string;
 }
 
-export interface ListingsState {
-  data: PropertyListing[];
-  loading: boolean;
-  error: string | null;
-  filters: ListingFilters;
-  total: number;
+export interface PaginationData {
+  currentPage: number;
+  totalPages: number;
+  totalResults: number;
+  resultsPerPage: number;
+}
+
+export interface UnitsTableProps {
+  units: Unit[];
+  className?: string;
+}
+
+export interface SearchAndFiltersProps {
+  className?: string;
+  onFilterChange?: (filters: Partial<FilterOptions>) => void;
+}
+
+export interface PaginationComponentProps extends Partial<PaginationData> {
+  onPageChange?: (page: number) => void;
+  className?: string;
 }
