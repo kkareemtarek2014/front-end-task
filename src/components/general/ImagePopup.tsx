@@ -18,9 +18,14 @@ export const ImagePopup = ({
 }: ImagePopupProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(initialImageIndex);
 
+  const validImages = images.filter((img) => img && img.trim() !== "");
+
   useEffect(() => {
-    setCurrentImageIndex(initialImageIndex);
-  }, [initialImageIndex]);
+    if (validImages.length > 0) {
+      const safeIndex = Math.min(initialImageIndex, validImages.length - 1);
+      setCurrentImageIndex(Math.max(0, safeIndex));
+    }
+  }, [initialImageIndex, validImages.length]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -51,12 +56,18 @@ export const ImagePopup = ({
   }, [isOpen, onClose]);
 
   const handlePrevious = useCallback(() => {
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  }, [images.length]);
+    if (validImages.length === 0) return;
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? validImages.length - 1 : prev - 1
+    );
+  }, [validImages.length]);
 
   const handleNext = useCallback(() => {
-    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  }, [images.length]);
+    if (validImages.length === 0) return;
+    setCurrentImageIndex((prev) =>
+      prev === validImages.length - 1 ? 0 : prev + 1
+    );
+  }, [validImages.length]);
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent) => {
@@ -67,7 +78,19 @@ export const ImagePopup = ({
     [onClose]
   );
 
-  if (!isOpen || images.length === 0) return null;
+  if (
+    !isOpen ||
+    validImages.length === 0 ||
+    currentImageIndex >= validImages.length
+  ) {
+    return null;
+  }
+
+  const currentImage = validImages[currentImageIndex];
+
+  if (!currentImage || currentImage.trim() === "") {
+    return null;
+  }
 
   return (
     <div
@@ -75,7 +98,7 @@ export const ImagePopup = ({
       onClick={handleBackdropClick}
     >
       <div className="relative max-w-[1184px] max-h-[600px] w-full mx-4">
-        {images.length > 1 && (
+        {validImages.length > 1 && (
           <>
             <button
               onClick={handlePrevious}
@@ -97,13 +120,12 @@ export const ImagePopup = ({
 
         <div className="relative w-full h-full  lg:w-[960px] mx-auto  flex items-center justify-center">
           <Image
-            src={images[currentImageIndex]}
-            alt={`Image`}
+            src={currentImage}
+            alt={`Image ${currentImageIndex + 1} of ${validImages.length}`}
             width={960}
             height={600}
-            className="max-w-full max-h-full object-contain"
-            style={{ width: "auto", height: "auto" }}
-            priority
+            className=" object-fill"
+            loading="lazy"
           />
           <button
             onClick={onClose}

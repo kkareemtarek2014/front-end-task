@@ -10,30 +10,19 @@ export const UnitsTable = ({ units }: UnitsTableProps) => {
   if (units.length === 0) {
     return <div>No units found</div>;
   }
-
+  const tableHeader = "py-4 px-6 text-sm font-medium text-center text-black";
+  const tableCell = "py-4 px-6 text-sm text-center text-black capitalize";
   return (
     <div className={`bg-white rounded-lg overflow-hidden `}>
       <table className="w-full rounded-lg border border-borderColor">
         <thead className="bg-white">
           <tr className="border-b border-gray-200">
-            <th className="py-4 px-6 text-sm font-medium text-center text-black">
-              Unit ID
-            </th>
-            <th className="py-4 px-6 text-sm font-medium text-center text-black">
-              Unit Type
-            </th>
-            <th className="py-4 px-6 text-sm font-medium text-center text-black">
-              BUA
-            </th>
-            <th className="py-4 px-6 text-sm font-medium text-center text-black">
-              Status
-            </th>
-            <th className="py-4 px-6 text-sm font-medium text-center text-black">
-              Total Price
-            </th>
-            <th className="py-4 px-6 text-sm font-medium text-center text-black">
-              Photos
-            </th>
+            <th className={tableHeader}>Unit ID</th>
+            <th className={tableHeader}>Unit Type</th>
+            <th className={tableHeader}>BUA</th>
+            <th className={tableHeader}>Status</th>
+            <th className={tableHeader}>Total Price</th>
+            <th className={tableHeader}>Photos</th>
           </tr>
         </thead>
         <tbody>
@@ -44,36 +33,33 @@ export const UnitsTable = ({ units }: UnitsTableProps) => {
                 index % 2 === 1 ? "bg-primary" : "bg-white"
               }`}
             >
-              <td className="py-4 px-6 text-sm font-medium text-center text-black">
-                {unit.id}
-              </td>
-              <td className="py-4 px-6 text-sm text-center text-black capitalize">
-                {unit.type}
-              </td>
-              <td className="py-4 px-6 text-sm text-center text-black">
-                {unit.bua}
-              </td>
-              <td className="py-4 px-6 text-center">
+              <td className={tableCell}>{unit.id}</td>
+              <td className={tableCell}>{unit.type}</td>
+              <td className={tableCell}>{unit.bua}</td>
+              <td className={tableCell}>
                 <StatusBadge status={unit.status} />
               </td>
-              <td className="py-4 px-6 text-sm text-center text-black font-medium">
-                {unit.totalPrice}
-              </td>
+              <td className={tableCell}>{unit.totalPrice}</td>
               <td className="py-4 px-6">
-                {unit.photos.length > 0 && (
-                  <div
-                    className="w-10 h-10   overflow-hidden mx-auto bg-gray-400  cursor-pointer hover:opacity-80 transition-opacity"
-                    onClick={() => openPopup(unit.photos, 0)}
-                  >
-                    <Image
-                      src={unit.photos[0] || "/logo.svg"}
-                      alt={`Unit ${unit.id}`}
-                      width={40}
-                      height={40}
-                      className="w-full h-full object-fill"
-                    />
-                  </div>
-                )}
+                {unit.photos.length > 0 &&
+                  unit.photos.some((photo) => photo && photo.trim() !== "") && (
+                    <div
+                      className="w-10 h-10   overflow-hidden mx-auto bg-gray-400  cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => openPopup(unit.photos, 0)}
+                    >
+                      <Image
+                        src={
+                          unit.photos.find(
+                            (photo) => photo && photo.trim() !== ""
+                          ) || "/logo.svg"
+                        }
+                        alt={`Unit ${unit.id}`}
+                        width={40}
+                        height={40}
+                        className="w-full h-full object-fill"
+                      />
+                    </div>
+                  )}
               </td>
             </tr>
           ))}
